@@ -32,14 +32,19 @@ const OTPLoginDialog = ({ open, onOpenChange, role = 'user' }: OTPLoginDialogPro
     e.preventDefault();
     setIsLoading(true);
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
       const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5050/api'}/auth/request-login-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, role }),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       const data = await response.json();
 
       if (!response.ok) {
@@ -52,9 +57,18 @@ const OTPLoginDialog = ({ open, onOpenChange, role = 'user' }: OTPLoginDialogPro
       });
       setStep('otp');
     } catch (error: any) {
+      console.error('OTP request error:', error);
+      let errorMessage = "Failed to send OTP";
+      
+      if (error.name === 'AbortError') {
+        errorMessage = "Request timeout. The server might be starting up (takes ~30s on first request). Please try again.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: "Error",
-        description: error.message || "Failed to send OTP",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
