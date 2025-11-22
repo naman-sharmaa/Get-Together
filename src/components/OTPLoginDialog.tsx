@@ -32,7 +32,7 @@ const OTPLoginDialog = ({ open, onOpenChange, role = 'user' }: OTPLoginDialogPro
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:5050/api/auth/request-login-otp', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5050/api'}/auth/request-login-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
