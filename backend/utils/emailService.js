@@ -38,28 +38,33 @@ if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
   console.error('6. Copy the 16-character password to EMAIL_PASSWORD');
 }
 
-// Configure email transporter with port 2525 (alternative SMTP port - rarely blocked)
+// Configure email transporter with Gmail App Password workaround
+// Using port 587 with explicit STARTTLS and Gmail-optimized settings
 const transporter = nodemailer.createTransport({
+  service: 'gmail', // Use Gmail service for better compatibility
   host: 'smtp.gmail.com',
-  port: 2525, // Alternative SMTP port - works on most cloud providers
-  secure: false, // Use STARTTLS
+  port: 587,
+  secure: false, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
-  pool: true, // Use connection pooling
-  maxConnections: 1, // Limit to 1 connection to avoid rate limiting
-  maxMessages: 3, // Max messages per connection
-  rateDelta: 1000, // Time between messages (1 second)
-  rateLimit: 3, // Max 3 emails per rateDelta
   tls: {
+    // Gmail requires specific TLS configuration
+    ciphers: 'SSLv3',
     rejectUnauthorized: false,
+    minVersion: 'TLSv1.2',
   },
-  connectionTimeout: 20000, // 20 second timeout
-  greetingTimeout: 20000,
-  socketTimeout: 20000,
-  debug: false,
-  logger: false,
+  requireTLS: true, // Force STARTTLS
+  connectionTimeout: 30000, // 30 second timeout
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
+  pool: false, // Disable connection pooling to avoid timeout issues
+  maxConnections: 1,
+  rateDelta: 2000, // 2 seconds between emails
+  rateLimit: 1, // 1 email per rateDelta
+  debug: true, // Enable debug for troubleshooting
+  logger: true, // Enable logging
 });
 
 /**
