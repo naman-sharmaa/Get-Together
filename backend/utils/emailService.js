@@ -34,26 +34,47 @@ let brevoApiInstance = null;
 
 // Helper function to send email via Brevo API
 const sendViaBrevoApi = async (mailOptions) => {
-  const sendSmtpEmail = new brevo.SendSmtpEmail();
-  
-  sendSmtpEmail.sender = { 
-    email: mailOptions.from.match(/<(.+)>/)?.[1] || mailOptions.from,
-    name: mailOptions.from.match(/"(.+?)"/)?.[1] || 'EventHub'
-  };
-  sendSmtpEmail.to = [{ email: mailOptions.to }];
-  sendSmtpEmail.subject = mailOptions.subject;
-  sendSmtpEmail.htmlContent = mailOptions.html;
-  
-  // Handle attachments
-  if (mailOptions.attachments && mailOptions.attachments.length > 0) {
-    sendSmtpEmail.attachment = mailOptions.attachments.map(att => ({
-      name: att.filename,
-      content: att.content.toString('base64'),
-    }));
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    
+    // Extract sender email and name
+    const senderEmail = mailOptions.from.match(/<(.+)>/)?.[1] || mailOptions.from.replace(/[<>"]/g, '');
+    const senderName = mailOptions.from.match(/"(.+?)"/)?.[1] || 'EventHub';
+    
+    console.log('📤 Brevo API - Preparing email:');
+    console.log('   From:', senderName, '<' + senderEmail + '>');
+    console.log('   To:', mailOptions.to);
+    console.log('   Subject:', mailOptions.subject);
+    
+    sendSmtpEmail.sender = { 
+      email: senderEmail,
+      name: senderName
+    };
+    sendSmtpEmail.to = [{ email: mailOptions.to }];
+    sendSmtpEmail.subject = mailOptions.subject;
+    sendSmtpEmail.htmlContent = mailOptions.html;
+    
+    // Handle attachments
+    if (mailOptions.attachments && mailOptions.attachments.length > 0) {
+      console.log('   Attachments:', mailOptions.attachments.length);
+      sendSmtpEmail.attachment = mailOptions.attachments.map(att => ({
+        name: att.filename,
+        content: att.content.toString('base64'),
+      }));
+    }
+    
+    const result = await brevoApiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log('✅ Brevo API Response:', {
+      messageId: result.response.messageId,
+      statusCode: result.response.statusCode || 'N/A'
+    });
+    
+    return { messageId: result.response.messageId };
+  } catch (error) {
+    console.error('❌ Brevo API Error:', error.message);
+    console.error('   Error body:', error.body || error.response || 'No details');
+    throw error;
   }
-  
-  const result = await brevoApiInstance.sendTransacEmail(sendSmtpEmail);
-  return { messageId: result.response.messageId };
 };
 
 // Configure email service - priority: Brevo API > Gmail SMTP
