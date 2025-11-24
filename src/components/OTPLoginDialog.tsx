@@ -31,14 +31,25 @@ const OTPLoginDialog = ({ open, onOpenChange, role = 'user' }: OTPLoginDialogPro
   const handleRequestOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+    
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5050/api'}/auth/request-login-otp`, {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
+      console.log('Requesting OTP from:', `${apiUrl}/auth/request-login-otp`);
+      
+      const response = await fetch(`${apiUrl}/auth/request-login-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, role }),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
+      console.log('OTP Response status:', response.status);
 
       const data = await response.json();
 
@@ -52,9 +63,21 @@ const OTPLoginDialog = ({ open, onOpenChange, role = 'user' }: OTPLoginDialogPro
       });
       setStep('otp');
     } catch (error: any) {
+      clearTimeout(timeoutId);
+      console.error('OTP Request Error:', error);
+      
+      let errorMessage = "Failed to send OTP";
+      if (error.name === 'AbortError') {
+        errorMessage = "Request timeout. Please check your connection and try again.";
+      } else if (error.message.includes('Failed to fetch')) {
+        errorMessage = "Cannot connect to server. Please check if the backend is running.";
+      } else {
+        errorMessage = error.message || errorMessage;
+      }
+      
       toast({
         title: "Error",
-        description: error.message || "Failed to send OTP",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
