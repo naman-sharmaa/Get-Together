@@ -33,29 +33,26 @@ console.log('  EMAIL_USER:', process.env.EMAIL_USER ? '✅ SET' : '❌ NOT SET')
 console.log('  EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD ? '✅ SET' : '❌ NOT SET');
 
 if (process.env.BREVO_SMTP_KEY && process.env.BREVO_SMTP_USER) {
-  // Brevo SMTP - works reliably on cloud platforms including Render
+  // Brevo SMTP - try port 465 (SSL) as Render may block 587
   console.log('📧 Using Brevo email service');
-  console.log('   SMTP Host: smtp-relay.brevo.com:587');
+  console.log('   SMTP Host: smtp-relay.brevo.com:465 (SSL)');
   console.log('   SMTP User:', process.env.BREVO_SMTP_USER);
   transporter = nodemailer.createTransport({
     host: 'smtp-relay.brevo.com',
-    port: 587,
-    secure: false,
+    port: 465,
+    secure: true, // Use SSL on port 465
     auth: {
       user: process.env.BREVO_SMTP_USER, // Must be your Brevo login email
       pass: process.env.BREVO_SMTP_KEY,  // Your Brevo SMTP key
     },
     tls: {
       rejectUnauthorized: false,
+      minVersion: 'TLSv1.2',
     },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-    pool: true,
-    maxConnections: 5,
-    maxMessages: 100,
-    rateDelta: 1000,
-    rateLimit: 5,
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 15000,
+    pool: false, // Disable pooling for better reliability
     debug: false,
     logger: false,
   });
