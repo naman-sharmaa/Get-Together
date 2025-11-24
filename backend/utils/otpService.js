@@ -1,21 +1,34 @@
-import nodemailer from 'nodemailer';
 import OTP from '../models/OTP.js';
+import nodemailer from 'nodemailer';
+import * as brevo from '@getbrevo/brevo';
 
-// Configure email transporter
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+// Email configuration - use Brevo API or Gmail SMTP
+let transporter;
+let brevoApiInstance = null;
+
+// Initialize email service (same logic as emailService.js)
+if (process.env.BREVO_API_KEY) {
+  console.log('📧 OTP Service: Using Brevo API');
+  const apiInstance = new brevo.TransactionalEmailsApi();
+  apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
+  brevoApiInstance = apiInstance;
+} else if (process.env.EMAIL_USER && process.env.EMAIL_PASSWORD) {
+  console.log('📧 OTP Service: Using Gmail SMTP');
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+}
 
 // Generate random OTP
 export const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-// Send OTP via email
+// Send OTP via email using Brevo API or Gmail
 export const sendOTPEmail = async (email, otp, type = 'login') => {
   try {
     const expiryMinutes = type === 'password_reset' ? 5 : 10;
@@ -27,32 +40,53 @@ export const sendOTPEmail = async (email, otp, type = 'login') => {
       ? `Your OTP for login is: ${otp}. This OTP will expire in ${expiryMinutes} minutes.`
       : `Your OTP for password reset is: ${otp}. This OTP will expire in ${expiryMinutes} minutes. If you requested a new OTP, any previous OTPs are now invalid.`;
 
-    await transporter.sendMail({
-      from: `"EventHub Security" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333;">TicketCharge Hub</h2>
-          <p style="color: #666; font-size: 16px;">
-            ${message}
-          </p>
-          <div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin: 20px 0;">
-            <h3 style="color: #333; margin: 0; text-align: center; font-size: 32px; letter-spacing: 5px;">
-              ${otp}
-            </h3>
-          </div>
-          <p style="color: #999; font-size: 12px;">
-            If you didn't request this OTP, please ignore this email.
-          </p>
+    const htmlContent = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #333;">EventHub Security</h2>
+        <p style="color: #666; font-size: 16px;">
+          ${message}
+        </p>
+        <div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin: 20px 0;">
+          <h3 style="color: #333; margin: 0; text-align: center; font-size: 32px; letter-spacing: 5px;">
+            ${otp}
+          </h3>
         </div>
-      `,
-    });
+        <p style="color: #999; font-size: 12px;">
+          If you didn't request this OTP, please ignore this email.
+        </p>
+      </div>
+    `;
+
+    if (brevoApiInstance) {
+      // Use Brevo API
+      const sendSmtpEmail = new brevo.SendSmtpEmail();
+      sendSmtpEmail.sender = { 
+        email: process.env.EMAIL_USER || 'noreply@eventhub.com',
+        name: 'EventHub Security'
+      };
+      sendSmtpEmail.to = [{ email }];
+      sendSmtpEmail.subject = subject;
+      sendSmtpEmail.htmlContent = htmlContent;
+      
+      await brevoApiInstance.sendTransacEmail(sendSmtpEmail);
+      console.log(`✅ OTP email sent via Brevo to ${email}`);
+    } else if (transporter) {
+      // Use Gmail SMTP
+      await transporter.sendMail({
+        from: `"EventHub Security" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject,
+        html: htmlContent,
+      });
+      console.log(`✅ OTP email sent via Gmail to ${email}`);
+    } else {
+      throw new Error('No email service configured');
+    }
 
     return true;
   } catch (error) {
-    console.error('Error sending OTP email:', error);
-    throw new Error('Failed to send OTP email');
+    console.error('❌ Error sending OTP email:', error);
+    throw new Error('Failed to send OTP email: ' + error.message);
   }
 };
 
