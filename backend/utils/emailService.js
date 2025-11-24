@@ -1,12 +1,19 @@
 import nodemailer from 'nodemailer';
+import * as brevo from '@getbrevo/brevo';
 import { generateTicketPDF } from './pdfService.js';
 
 // Helper function to send email with retry logic
 const sendMailWithRetry = async (mailOptions, maxRetries = 3, delayMs = 2000) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      const info = await transporter.sendMail(mailOptions);
-      return info;
+      // Use Brevo API if configured, otherwise use transporter
+      if (brevoApiInstance) {
+        const info = await sendViaBrevoApi(mailOptions);
+        return info;
+      } else {
+        const info = await transporter.sendMail(mailOptions);
+        return info;
+      }
     } catch (error) {
       console.error(`Email attempt ${attempt}/${maxRetries} failed:`, error.message);
       
@@ -22,39 +29,55 @@ const sendMailWithRetry = async (mailOptions, maxRetries = 3, delayMs = 2000) =>
   }
 };
 
-// Configure email transporter - use Brevo if configured, otherwise Gmail
+// Brevo API instance (used when BREVO_API_KEY is set)
+let brevoApiInstance = null;
+
+// Helper function to send email via Brevo API
+const sendViaBrevoApi = async (mailOptions) => {
+  const sendSmtpEmail = new brevo.SendSmtpEmail();
+  
+  sendSmtpEmail.sender = { 
+    email: mailOptions.from.match(/<(.+)>/)?.[1] || mailOptions.from,
+    name: mailOptions.from.match(/"(.+?)"/)?.[1] || 'EventHub'
+  };
+  sendSmtpEmail.to = [{ email: mailOptions.to }];
+  sendSmtpEmail.subject = mailOptions.subject;
+  sendSmtpEmail.htmlContent = mailOptions.html;
+  
+  // Handle attachments
+  if (mailOptions.attachments && mailOptions.attachments.length > 0) {
+    sendSmtpEmail.attachment = mailOptions.attachments.map(att => ({
+      name: att.filename,
+      content: att.content.toString('base64'),
+    }));
+  }
+  
+  const result = await brevoApiInstance.sendTransacEmail(sendSmtpEmail);
+  return { messageId: result.response.messageId };
+};
+
+// Configure email service - priority: Brevo API > Gmail SMTP
 let transporter;
 
 // Debug: Log what credentials are available
 console.log('🔍 Email Service Configuration Check:');
-console.log('  BREVO_SMTP_KEY:', process.env.BREVO_SMTP_KEY ? '✅ SET' : '❌ NOT SET');
-console.log('  BREVO_SMTP_USER:', process.env.BREVO_SMTP_USER ? '✅ SET' : '❌ NOT SET');
+console.log('  BREVO_API_KEY:', process.env.BREVO_API_KEY ? '✅ SET' : '❌ NOT SET');
 console.log('  EMAIL_USER:', process.env.EMAIL_USER ? '✅ SET' : '❌ NOT SET');
 console.log('  EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD ? '✅ SET' : '❌ NOT SET');
 
-if (process.env.BREVO_SMTP_KEY && process.env.BREVO_SMTP_USER) {
-  // Brevo SMTP - try port 465 (SSL) as Render may block 587
-  console.log('📧 Using Brevo email service');
-  console.log('   SMTP Host: smtp-relay.brevo.com:465 (SSL)');
-  console.log('   SMTP User:', process.env.BREVO_SMTP_USER);
+if (process.env.BREVO_API_KEY) {
+  // Brevo API - uses HTTPS (port 443), never blocked by cloud providers
+  console.log('📧 Using Brevo API (HTTPS - port 443)');
+  console.log('   Sender: EventHub <' + (process.env.EMAIL_USER || 'noreply@eventhub.com') + '>');
+  
+  const apiInstance = new brevo.TransactionalEmailsApi();
+  apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
+  brevoApiInstance = apiInstance;
+  
+  // Create dummy transporter (not used, but needed for compatibility)
   transporter = nodemailer.createTransport({
-    host: 'smtp-relay.brevo.com',
-    port: 465,
-    secure: true, // Use SSL on port 465
-    auth: {
-      user: process.env.BREVO_SMTP_USER, // Must be your Brevo login email
-      pass: process.env.BREVO_SMTP_KEY,  // Your Brevo SMTP key
-    },
-    tls: {
-      rejectUnauthorized: false,
-      minVersion: 'TLSv1.2',
-    },
-    connectionTimeout: 15000,
-    greetingTimeout: 15000,
-    socketTimeout: 15000,
-    pool: false, // Disable pooling for better reliability
-    debug: false,
-    logger: false,
+    streamTransport: true,
+    newline: 'unix',
   });
 } else if (process.env.EMAIL_USER && process.env.EMAIL_PASSWORD) {
   // Gmail SMTP - fallback for local development
@@ -79,9 +102,9 @@ if (process.env.BREVO_SMTP_KEY && process.env.BREVO_SMTP_USER) {
   });
 } else {
   console.error('❌ CRITICAL: No email credentials configured!');
-  console.error('Option 1 (Brevo - Recommended for production):');
-  console.error('  BREVO_SMTP_USER=your-brevo-login-email@example.com');
-  console.error('  BREVO_SMTP_KEY=xsmtpsib-your-key');
+  console.error('Option 1 (Brevo API - Recommended for production):');
+  console.error('  BREVO_API_KEY=xkeysib-your-api-key');
+  console.error('  Get it from: https://app.brevo.com/ → SMTP & API → API Keys');
   console.error('');
   console.error('Option 2 (Gmail - For local development):');
   console.error('  EMAIL_USER=your-gmail@gmail.com');
