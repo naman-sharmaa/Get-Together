@@ -23,48 +23,43 @@ const sendMailWithRetry = async (mailOptions, maxRetries = 3, delayMs = 2000) =>
 };
 
 // Validate email credentials
-if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-  console.error('❌ CRITICAL: Email credentials not configured!');
+if (!process.env.BREVO_SMTP_KEY) {
+  console.error('❌ CRITICAL: Brevo SMTP credentials not configured!');
   console.error('Add to .env file:');
-  console.error('  EMAIL_USER=your-gmail@gmail.com');
-  console.error('  EMAIL_PASSWORD=your-app-password');
+  console.error('  BREVO_SMTP_KEY=your-brevo-smtp-key');
   console.error('');
-  console.error('To get Gmail App Password:');
-  console.error('1. Go to https://myaccount.google.com/');
-  console.error('2. Click "Security" in left sidebar');
-  console.error('3. Enable 2-Step Verification');
-  console.error('4. Scroll to "App passwords"');
-  console.error('5. Select "Mail" and "Windows Computer"');
-  console.error('6. Copy the 16-character password to EMAIL_PASSWORD');
+  console.error('To get Brevo SMTP Key:');
+  console.error('1. Go to https://app.brevo.com/');
+  console.error('2. Sign up for free account (300 emails/day)');
+  console.error('3. Navigate to "SMTP & API" section');
+  console.error('4. Click "SMTP" tab');
+  console.error('5. Copy your SMTP key');
+  console.error('6. Add BREVO_SMTP_KEY to your environment variables');
 }
 
-// Configure email transporter with Gmail App Password workaround
-// Using port 587 with explicit STARTTLS and Gmail-optimized settings
+// Configure email transporter with Brevo (formerly Sendinblue)
+// Brevo works reliably on all cloud platforms including Render
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // Use Gmail service for better compatibility
-  host: 'smtp.gmail.com',
+  host: 'smtp-relay.brevo.com',
   port: 587,
-  secure: false, // true for 465, false for other ports
+  secure: false, // Use STARTTLS on port 587
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
+    user: process.env.BREVO_SMTP_USER || process.env.EMAIL_USER || 'your-email@example.com',
+    pass: process.env.BREVO_SMTP_KEY,
   },
   tls: {
-    // Gmail requires specific TLS configuration
-    ciphers: 'SSLv3',
     rejectUnauthorized: false,
-    minVersion: 'TLSv1.2',
   },
-  requireTLS: true, // Force STARTTLS
-  connectionTimeout: 30000, // 30 second timeout
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
-  pool: false, // Disable connection pooling to avoid timeout issues
-  maxConnections: 1,
-  rateDelta: 2000, // 2 seconds between emails
-  rateLimit: 1, // 1 email per rateDelta
-  debug: true, // Enable debug for troubleshooting
-  logger: true, // Enable logging
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
+  pool: true,
+  maxConnections: 5,
+  maxMessages: 100,
+  rateDelta: 1000,
+  rateLimit: 5,
+  debug: false,
+  logger: false,
 });
 
 /**
