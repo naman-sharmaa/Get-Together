@@ -1,6 +1,6 @@
 import express from 'express';
 import * as contactController from '../controllers/contactController.js';
-import { adminAuth } from '../middleware/adminAuth.js';
+import { authenticateAdmin } from '../middleware/adminAuth.js';
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/submit', contactController.submitContactForm);
 
 // Admin routes - manage contacts
-router.get('/all', adminAuth, contactController.getAllContacts);
-router.patch('/:id/status', adminAuth, contactController.updateContactStatus);
+router.get('/all', authenticateAdmin, contactController.getAllContacts);
+router.patch('/:id/status', authenticateAdmin, contactController.updateContactStatus);
 
 export default router;
