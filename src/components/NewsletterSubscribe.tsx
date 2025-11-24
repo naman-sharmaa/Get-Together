@@ -75,7 +75,7 @@ const NewsletterSubscribe = ({ className = "" }: NewsletterSubscribeProps) => {
         </div>
         <div className="flex-1">
           <h3 className="text-lg font-bold text-foreground mb-2">
-            Stay Updated with EventHub
+            Stay Updated with GetTogether
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
             Subscribe to our newsletter for the latest events, exclusive offers, and event management tips.

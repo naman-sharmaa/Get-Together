@@ -23,7 +23,7 @@ const AboutUs = () => {
         </Button>
 
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">About EventHub</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">About GetTogether</h1>
           <p className="text-xl text-muted-foreground mb-12">
             Connecting people through unforgettable experiences since 2020
           </p>
@@ -32,7 +32,7 @@ const AboutUs = () => {
             <h2 className="text-3xl font-semibold text-foreground mb-6">Our Story</h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                EventHub was founded with a simple yet powerful vision: to make event discovery and 
+                GetTogether was founded with a simple yet powerful vision: to make event discovery and 
                 booking effortless for everyone. What started as a small platform for local events 
                 has grown into a comprehensive solution connecting millions of event-goers with their 
                 perfect experiences.
@@ -44,7 +44,7 @@ const AboutUs = () => {
                 to experience something extraordinary.
               </p>
               <p>
-                Today, EventHub serves thousands of event organizers and millions of attendees 
+                Today, GetTogether serves thousands of event organizers and millions of attendees 
                 worldwide, offering a seamless platform that makes event management and ticket 
                 booking simple, secure, and enjoyable.
               </p>
@@ -138,12 +138,12 @@ const AboutUs = () => {
             <h2 className="text-3xl font-semibold text-foreground mb-6">Get In Touch</h2>
             <Card className="p-8">
               <p className="text-muted-foreground mb-6">
-                Have questions or want to learn more about EventHub? We'd love to hear from you!
+                Have questions or want to learn more about GetTogether? We'd love to hear from you!
               </p>
               <div className="space-y-3 text-muted-foreground">
-                <p><strong className="text-foreground">Email:</strong> info@eventhub.com</p>
-                <p><strong className="text-foreground">Phone:</strong> +1 (234) 567-890</p>
-                <p><strong className="text-foreground">Address:</strong> 123 Event Street, New York, NY 10001</p>
+                <p><strong className="text-foreground">Email:</strong> gettogetherebookings@gmail.com</p>
+                <p><strong className="text-foreground">Phone:</strong> +91 9079235893</p>
+                <p><strong className="text-foreground">Address:</strong> Phagwara - 144401, Punjab, India</p>
               </div>
               <Button 
                 onClick={() => navigate('/#contact')} 

@@ -250,21 +250,21 @@ const Organizer = () => {
             <Card>
               <CardContent className="p-8">
                 <p className="text-center text-muted-foreground mb-8">
-                  Ready to take your events to the next level? Contact our team today and discover how EventBook can transform your event management experience.
+                  Ready to take your events to the next level? Contact our team today and discover how GetTogether can transform your event management experience.
                 </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                   <div>
                     <h4 className="font-semibold text-foreground mb-2">Call Us</h4>
-                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                    <p className="text-muted-foreground">+91 9079235893</p>
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground mb-2">Email Us</h4>
-                    <p className="text-muted-foreground">organizer@eventbook.com</p>
+                    <p className="text-muted-foreground">gettogetherebookings@gmail.com</p>
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground mb-2">Visit Us</h4>
-                    <p className="text-muted-foreground">123 Business St, NY 10001</p>
+                    <p className="text-muted-foreground">Phagwara - 144401, Punjab, India</p>
                   </div>
                 </div>
               </CardContent>

@@ -39,7 +39,7 @@ const sendViaBrevoApi = async (mailOptions) => {
     
     // Extract sender email and name
     const senderEmail = mailOptions.from.match(/<(.+)>/)?.[1] || mailOptions.from.replace(/[<>"]/g, '');
-    const senderName = mailOptions.from.match(/"(.+?)"/)?.[1] || 'EventHub';
+    const senderName = mailOptions.from.match(/"(.+?)"/)?.[1] || 'GetTogether';
     
     console.log('📤 Brevo API - Preparing email:');
     console.log('   From:', senderName, '<' + senderEmail + '>');
@@ -89,7 +89,7 @@ console.log('  EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD ? '✅ SET' : '❌ N
 if (process.env.BREVO_API_KEY) {
   // Brevo API - uses HTTPS (port 443), never blocked by cloud providers
   console.log('📧 Using Brevo API (HTTPS - port 443)');
-  console.log('   Sender: EventHub <' + (process.env.EMAIL_USER || 'noreply@eventhub.com') + '>');
+  console.log('   Sender: GetTogether <' + (process.env.EMAIL_USER || 'noreply@gettogether.com') + '>');
   
   const apiInstance = new brevo.TransactionalEmailsApi();
   apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
@@ -291,7 +291,7 @@ export const sendBookingConfirmationEmail = async (booking, event, user) => {
 
             <div class="content">
               <p>Hi <strong>${user.name}</strong>,</p>
-              <p>Thank you for booking with EventHub! Your payment has been successfully processed and your tickets are confirmed.</p>
+              <p>Thank you for booking with GetTogether! Your payment has been successfully processed and your tickets are confirmed.</p>
 
               <div class="highlight">
                 <strong>Booking Reference:</strong> ${booking._id.toString().slice(-8).toUpperCase()}
@@ -313,7 +313,7 @@ export const sendBookingConfirmationEmail = async (booking, event, user) => {
                 </div>
                 <div class="info-row">
                   <span class="info-label">Organizer:</span>
-                  <span class="info-value">${event.organizationName || 'EventHub'}</span>
+                  <span class="info-value">${event.organizationName || 'GetTogether'}</span>
                 </div>
               </div>
 
@@ -363,12 +363,12 @@ export const sendBookingConfirmationEmail = async (booking, event, user) => {
 
               <div class="section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
                 <h2>Need Help?</h2>
-                <p>If you have any questions about your booking or tickets, please contact us at <strong>support@eventhub.com</strong></p>
+                <p>If you have any questions about your booking or tickets, please contact us at <strong>gettogetherebookings@gmail.com</strong></p>
               </div>
             </div>
 
             <div class="footer">
-              <p>© 2025 EventHub. All rights reserved.</p>
+              <p>© 2025 GetTogether. All rights reserved.</p>
               <p>This is an automated email. Please do not reply to this message.</p>
             </div>
           </div>
@@ -378,7 +378,7 @@ export const sendBookingConfirmationEmail = async (booking, event, user) => {
 
     // Send to main booking user
     const mainMailOptions = {
-      from: `"EventHub" <${process.env.EMAIL_USER}>`,
+      from: `"GetTogether" <${process.env.EMAIL_USER}>`,
       to: user.email,
       subject: `🎫 Booking Confirmed - ${event.title}`,
       html: htmlContent,
@@ -520,7 +520,7 @@ export const sendBookingConfirmationEmail = async (booking, event, user) => {
                     </div>
                     <div class="info-row">
                       <span class="info-label">Organizer:</span>
-                      <span class="info-value">${event.organizationName || 'EventHub'}</span>
+                      <span class="info-value">${event.organizationName || 'GetTogether'}</span>
                     </div>
                   </div>
 
@@ -530,12 +530,12 @@ export const sendBookingConfirmationEmail = async (booking, event, user) => {
 
                   <div class="section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
                     <h2>Need Help?</h2>
-                    <p>If you have any questions about your ticket, please contact us at <strong>support@eventhub.com</strong></p>
+                    <p>If you have any questions about your ticket, please contact us at <strong>gettogetherebookings@gmail.com</strong></p>
                   </div>
                 </div>
 
                 <div class="footer">
-                  <p>© 2025 EventHub. All rights reserved.</p>
+                  <p>© 2025 GetTogether. All rights reserved.</p>
                   <p>This is an automated email. Please do not reply to this message.</p>
                 </div>
               </div>
@@ -544,7 +544,7 @@ export const sendBookingConfirmationEmail = async (booking, event, user) => {
         `;
 
         const attendeeMailOptions = {
-          from: `"EventHub" <${process.env.EMAIL_USER}>`,
+          from: `"GetTogether" <${process.env.EMAIL_USER}>`,
           to: attendee.email,
           subject: `🎫 Your Ticket - ${event.title}`,
           html: attendeeHtmlContent,
@@ -663,7 +663,7 @@ export const sendPaymentFailureEmail = async (user, event, reason) => {
             </div>
 
             <div class="footer">
-              <p>© 2025 EventHub. All rights reserved.</p>
+              <p>© 2025 GetTogether. All rights reserved.</p>
             </div>
           </div>
         </body>
@@ -671,7 +671,7 @@ export const sendPaymentFailureEmail = async (user, event, reason) => {
     `;
 
     const mailOptions = {
-      from: `"EventHub" <${process.env.EMAIL_USER}>`,
+      from: `"GetTogether" <${process.env.EMAIL_USER}>`,
       to: user.email,
       subject: `Payment Failed - ${event.title}`,
       html: htmlContent,
@@ -699,7 +699,7 @@ export const sendNewsletterEmail = async (email, name, type = 'welcome', customD
 
     switch (type) {
       case 'welcome':
-        subject = 'Welcome to EventHub Newsletter! 🎉';
+        subject = 'Welcome to GetTogether Newsletter! 🎉';
         htmlContent = `
           <!DOCTYPE html>
           <html>
@@ -751,7 +751,7 @@ export const sendNewsletterEmail = async (email, name, type = 'welcome', customD
             <body>
               <div class="container">
                 <div class="header">
-                  <h1>🎉 Welcome to EventHub!</h1>
+                  <h1>🎉 Welcome to GetTogether!</h1>
                 </div>
                 <div class="content">
                   <p>${greeting},</p>
@@ -769,7 +769,7 @@ export const sendNewsletterEmail = async (email, name, type = 'welcome', customD
                   </div>
                 </div>
                 <div class="footer">
-                  <p>© 2025 EventHub. All rights reserved.</p>
+                  <p>© 2025 GetTogether. All rights reserved.</p>
                   <p><a href="${unsubscribeUrl}" style="color: #999;">Unsubscribe</a> from this newsletter</p>
                 </div>
               </div>
@@ -779,7 +779,7 @@ export const sendNewsletterEmail = async (email, name, type = 'welcome', customD
         break;
 
       case 'custom':
-        subject = customData.subject || 'EventHub Newsletter Update';
+        subject = customData.subject || 'GetTogether Newsletter Update';
         htmlContent = `
           <!DOCTYPE html>
           <html>
@@ -821,14 +821,14 @@ export const sendNewsletterEmail = async (email, name, type = 'welcome', customD
             <body>
               <div class="container">
                 <div class="header">
-                  <h1>📬 EventHub Newsletter</h1>
+                  <h1>📬 GetTogether Newsletter</h1>
                 </div>
                 <div class="content">
                   <p>${greeting},</p>
-                  ${customData.content || '<p>Check out what\'s new at EventHub!</p>'}
+                  ${customData.content || '<p>Check out what\'s new at GetTogether!</p>'}
                 </div>
                 <div class="footer">
-                  <p>© 2025 EventHub. All rights reserved.</p>
+                  <p>© 2025 GetTogether. All rights reserved.</p>
                   <p><a href="${unsubscribeUrl}" style="color: #999;">Unsubscribe</a> from this newsletter</p>
                 </div>
               </div>
@@ -838,19 +838,19 @@ export const sendNewsletterEmail = async (email, name, type = 'welcome', customD
         break;
 
       default:
-        subject = 'EventHub Newsletter';
+        subject = 'GetTogether Newsletter';
         htmlContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2>EventHub Newsletter</h2>
+            <h2>GetTogether Newsletter</h2>
             <p>${greeting},</p>
-            <p>Thank you for being a part of EventHub community!</p>
+            <p>Thank you for being a part of GetTogether community!</p>
             <p><a href="${unsubscribeUrl}">Unsubscribe</a></p>
           </div>
         `;
     }
 
     const mailOptions = {
-      from: `"EventHub Newsletter" <${process.env.EMAIL_USER}>`,
+      from: `"GetTogether Newsletter" <${process.env.EMAIL_USER}>`,
       to: email,
       subject,
       html: htmlContent,

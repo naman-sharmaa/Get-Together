@@ -24,7 +24,7 @@ const setupAdmin = async () => {
     // Create super admin
     const admin = await Admin.create({
       name: 'Super Admin',
-      email: 'admin@eventhub.com',
+      email: 'admin@gettogether.com',
       password: 'Admin@123456', // CHANGE THIS IMMEDIATELY AFTER FIRST LOGIN
       role: 'super-admin',
       permissions: {

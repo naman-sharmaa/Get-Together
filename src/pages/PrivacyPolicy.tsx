@@ -106,9 +106,9 @@ const PrivacyPolicy = () => {
             <p>
               If you have any questions about this Privacy Policy, please contact us at:
               <br />
-              Email: privacy@eventhub.com
+              Email: gettogetherebookings@gmail.com
               <br />
-              Phone: +1 (234) 567-890
+              Phone: +91 9079235893
             </p>
           </section>
 

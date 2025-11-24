@@ -10,6 +10,7 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import passwordResetRoutes from './routes/passwordResetRoutes.js';
 import newsletterRoutes from './routes/newsletterRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 import checkMaintenanceMode from './middleware/maintenance.js';
 
 dotenv.config();
@@ -77,6 +78,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

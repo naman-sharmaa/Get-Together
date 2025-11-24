@@ -70,7 +70,7 @@ const RazorpayPayment = ({
         key: bookingData.razorpayKey,
         amount: Math.round(bookingData.booking.amount * 100), // Amount in paise
         currency: "INR",
-        name: "EventHub",
+        name: "GetTogether",
         description: `Booking for ${event.title}`,
         order_id: bookingData.booking.razorpayOrderId,
         handler: async (response: any) => {

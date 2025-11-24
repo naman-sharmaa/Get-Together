@@ -14,7 +14,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Ticket className="h-6 w-6 text-primary" />
-              <span className="text-lg font-bold text-foreground">EventHub</span>
+              <span className="text-lg font-bold text-foreground">GetTogether</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Your premier destination for discovering and booking amazing events. 
@@ -38,19 +38,19 @@ const Footer = () => {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
-                <a href="mailto:info@eventhub.com" className="hover:text-primary transition-colors">
-                  info@eventhub.com
+                <a href="mailto:gettogetherebookings@gmail.com" className="hover:text-primary transition-colors">
+                  gettogetherebookings@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />
-                <a href="tel:+1234567890" className="hover:text-primary transition-colors">
-                  +1 (234) 567-890
+                <a href="tel:+919079235893" className="hover:text-primary transition-colors">
+                  +91 9079235893
                 </a>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5" />
-                <span>123 Event Street, City, State 12345</span>
+                <span>Phagwara - 144401, Punjab, India</span>
               </li>
             </ul>
           </div>
@@ -81,7 +81,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} EventHub. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} GetTogether. All rights reserved.</p>
         </div>
       </div>
     </footer>

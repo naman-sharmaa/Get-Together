@@ -33,7 +33,7 @@ export const generateTicketPDF = async (booking, event, user) => {
       doc.fillColor('#ffffff')
          .fontSize(32)
          .font('Helvetica-Bold')
-         .text('EventHub', leftMargin, 30, { 
+         .text('GetTogether', leftMargin, 30, { 
            width: contentWidth, 
            align: 'center' 
          });
@@ -112,7 +112,7 @@ export const generateTicketPDF = async (booking, event, user) => {
          .text('Organizer:', leftMargin, yPosition);
       doc.font('Helvetica')
          .fillColor('#000000')
-         .text(event.organizationName || 'EventHub', leftMargin + 100, yPosition);
+         .text(event.organizationName || 'GetTogether', leftMargin + 100, yPosition);
       
       yPosition += 35;
 
@@ -326,7 +326,7 @@ export const generateTicketPDF = async (booking, event, user) => {
       doc.fontSize(9)
          .font('Helvetica')
          .fillColor('#9ca3af')
-         .text('© 2025 EventHub. All rights reserved.', leftMargin, yPosition, {
+         .text('© 2025 GetTogether. All rights reserved.', leftMargin, yPosition, {
            width: contentWidth,
            align: 'center'
          });

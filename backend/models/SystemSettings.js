@@ -34,7 +34,7 @@ const systemSettingsSchema = new mongoose.Schema({
   },
   contactEmail: {
     type: String,
-    default: 'support@eventhub.com',
+    default: 'gettogetherebookings@gmail.com',
   },
   contactPhone: {
     type: String,

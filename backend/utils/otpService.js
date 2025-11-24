@@ -42,7 +42,7 @@ export const sendOTPEmail = async (email, otp, type = 'login') => {
 
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333;">EventHub Security</h2>
+        <h2 style="color: #333;">GetTogether Security</h2>
         <p style="color: #666; font-size: 16px;">
           ${message}
         </p>
@@ -61,8 +61,8 @@ export const sendOTPEmail = async (email, otp, type = 'login') => {
       // Use Brevo API
       const sendSmtpEmail = new brevo.SendSmtpEmail();
       sendSmtpEmail.sender = { 
-        email: process.env.EMAIL_USER || 'noreply@eventhub.com',
-        name: 'EventHub Security'
+        email: process.env.EMAIL_USER || 'gettogetherebookings@gmail.com',
+        name: 'GetTogether Security'
       };
       sendSmtpEmail.to = [{ email }];
       sendSmtpEmail.subject = subject;
@@ -73,7 +73,7 @@ export const sendOTPEmail = async (email, otp, type = 'login') => {
     } else if (transporter) {
       // Use Gmail SMTP
       await transporter.sendMail({
-        from: `"EventHub Security" <${process.env.EMAIL_USER}>`,
+        from: `"GetTogether Security" <${process.env.EMAIL_USER}>`,
         to: email,
         subject,
         html: htmlContent,

@@ -9,7 +9,7 @@ const OrganizerFooter = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Calendar className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold">EventBook Organizer</span>
+              <span className="text-xl font-bold">GetTogether Organizer</span>
             </div>
             <p className="text-muted-foreground text-sm">
               Making event organization simple and successful for everyone.
@@ -39,15 +39,15 @@ const OrganizerFooter = () => {
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
-                <span className="text-sm text-muted-foreground">+1 (555) 123-4567</span>
+                <span className="text-sm text-muted-foreground">+91 9079235893</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-primary" />
-                <span className="text-sm text-muted-foreground">organizer@eventbook.com</span>
+                <span className="text-sm text-muted-foreground">gettogetherebookings@gmail.com</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-primary" />
-                <span className="text-sm text-muted-foreground">123 Business St, NY 10001</span>
+                <span className="text-sm text-muted-foreground">Phagwara - 144401, Punjab, India</span>
               </div>
             </div>
           </div>
@@ -56,7 +56,7 @@ const OrganizerFooter = () => {
         {/* Bottom Bar */}
         <div className="border-t border-border/40 mt-8 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} EventBook. All rights reserved.
+            © {new Date().getFullYear()} GetTogether. All rights reserved.
           </p>
         </div>
       </div>

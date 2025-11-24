@@ -89,13 +89,57 @@ const Index = () => {
     "Ticketmaster", "LiveNation", "Eventbrite", "StubHub", "SeatGeek", "AXS", "Ticketek", "See Tickets"
   ];
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message sent!",
-      description: "We'll get back to you soon.",
-    });
-    setContactForm({ name: "", email: "", phone: "", message: "" });
+    
+    // Get message from textarea element
+    const messageTextarea = (e.target as HTMLFormElement).querySelector('textarea');
+    const fullMessage = messageTextarea?.value || '';
+    
+    if (!contactForm.name || !contactForm.email || !contactForm.message || !fullMessage) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/contact/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: contactForm.name,
+          email: contactForm.email,
+          phone: contactForm.phone,
+          subject: contactForm.message, // Using message field as subject
+          message: fullMessage, // Full message from textarea
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast({
+          title: "Message sent!",
+          description: "We'll get back to you soon. Check your email for confirmation.",
+        });
+        setContactForm({ name: "", email: "", phone: "", message: "" });
+        if (messageTextarea) messageTextarea.value = '';
+      } else {
+        throw new Error(data.message || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again later.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -321,7 +365,7 @@ const Index = () => {
                       <Mail className="h-6 w-6 text-primary mt-1" />
                       <div>
                         <h4 className="font-semibold text-foreground mb-1">Email</h4>
-                        <p className="text-muted-foreground">neartocollege@gmail.com</p>
+                        <p className="text-muted-foreground">gettogetherebookings@gmail.com</p>
                       </div>
                     </div>
 
@@ -329,7 +373,7 @@ const Index = () => {
                       <Phone className="h-6 w-6 text-primary mt-1" />
                       <div>
                         <h4 className="font-semibold text-foreground mb-1">Phone</h4>
-                        <p className="text-muted-foreground">+91 9525701001</p>
+                        <p className="text-muted-foreground">+91 9079235893</p>
                       </div>
                     </div>
                   </div>

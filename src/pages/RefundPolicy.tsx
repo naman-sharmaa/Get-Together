@@ -27,7 +27,7 @@ const RefundPolicy = () => {
           <section>
             <h2 className="text-2xl font-semibold text-foreground mb-4">1. General Refund Policy</h2>
             <p>
-              At EventHub, we understand that plans can change. Our refund policy is designed to be 
+              At GetTogether, we understand that plans can change. Our refund policy is designed to be 
               fair to both event attendees and organizers. Please read this policy carefully before 
               purchasing tickets.
             </p>
@@ -73,7 +73,7 @@ const RefundPolicy = () => {
             <h2 className="text-2xl font-semibold text-foreground mb-4">5. How to Request a Refund</h2>
             <p className="mb-4">To request a refund:</p>
             <ol className="list-decimal pl-6 space-y-2">
-              <li>Log in to your EventHub account</li>
+              <li>Log in to your GetTogether account</li>
               <li>Navigate to "My Tickets"</li>
               <li>Select the ticket you wish to refund</li>
               <li>Click "Request Refund" and follow the prompts</li>
@@ -119,11 +119,11 @@ const RefundPolicy = () => {
             <p>
               If you have any questions about our Refund Policy, please contact us at:
               <br />
-              Email: support@eventhub.com
+              Email: gettogetherebookings@gmail.com
               <br />
-              Phone: +1 (234) 567-890
+              Phone: +91 9079235893
               <br />
-              Hours: Monday-Friday, 9 AM - 6 PM EST
+              Hours: Monday-Friday, 9 AM - 6 PM IST
             </p>
           </section>
 

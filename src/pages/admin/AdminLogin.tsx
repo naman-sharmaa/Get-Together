@@ -46,7 +46,7 @@ const AdminLogin = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@eventhub.com"
+                placeholder="admin@gettogether.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
