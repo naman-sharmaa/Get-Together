@@ -25,11 +25,12 @@ const defaultImages: { [key: string]: string } = {
   Concert: eventConcert,
 };
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
 
 const getImageUrl = (imagePath: string): string => {
   if (imagePath && imagePath.startsWith('/uploads')) {
-    return `${API_BASE_URL}${imagePath}`;
+    const baseUrl = API_BASE_URL.replace('/api', '');
+    return `${baseUrl}${imagePath}`;
   }
   return imagePath;
 };

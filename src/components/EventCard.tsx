@@ -3,12 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
 
 const getImageUrl = (imagePath: string): string => {
-  // If image starts with /uploads, it's an uploaded file - prepend API base URL
+  // If image starts with /uploads, it's an uploaded file - prepend backend base URL (without /api)
   if (imagePath && imagePath.startsWith('/uploads')) {
-    return `${API_BASE_URL}${imagePath}`;
+    // Remove /api suffix if present since uploads are served at root
+    const baseUrl = API_BASE_URL.replace('/api', '');
+    return `${baseUrl}${imagePath}`;
   }
   // Otherwise return as-is (external URL or asset)
   return imagePath;

@@ -218,7 +218,8 @@ export const getUserBookings = async (req, res) => {
     const userId = req.user.id;
     const now = new Date();
 
-    const bookings = await Booking.find({ userId, status: 'confirmed' })
+    // Return all bookings (including cancelled) so user can see their full ticket history
+    const bookings = await Booking.find({ userId })
       .populate('eventId', 'title date location price category imageUrl')
       .sort({ createdAt: -1 });
 

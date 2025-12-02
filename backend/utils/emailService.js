@@ -1086,9 +1086,9 @@ export const sendTicketCancellationEmails = async (booking, ticket, event) => {
       }
     }
 
-    // 3. Send notification to admin
-    const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER;
-    if (adminEmail) {
+    // 3. Send notification to super admin
+    const superAdminEmail = 'namansharma2109@gmail.com';
+    if (superAdminEmail) {
       const adminEmailHtml = `
         <!DOCTYPE html>
         <html>
@@ -1182,13 +1182,13 @@ export const sendTicketCancellationEmails = async (booking, ticket, event) => {
 
       const adminMailOptions = {
         from: getSenderEmail('GetTogether System'),
-        to: adminEmail,
-        subject: `[Admin Alert] Ticket Cancellation - ${event.title}`,
+        to: superAdminEmail,
+        subject: `[Super Admin Alert] Ticket Cancellation - ${event.title}`,
         html: adminEmailHtml,
       };
 
       await sendMailWithRetry(adminMailOptions);
-      console.log(`✅ Cancellation notification sent to admin: ${adminEmail}`);
+      console.log(`✅ Cancellation notification sent to super admin: ${superAdminEmail}`);
     }
 
     return true;

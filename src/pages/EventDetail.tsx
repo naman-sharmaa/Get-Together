@@ -13,11 +13,12 @@ import { eventsAPI, bookingsAPI } from "@/lib/api";
 import { Calendar, MapPin, DollarSign, Users, Ticket, ArrowLeft } from "lucide-react";
 import BookingForm from "@/components/BookingForm";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
 
 const getImageUrl = (imagePath: string): string => {
   if (imagePath && imagePath.startsWith('/uploads')) {
-    return `${API_BASE_URL}${imagePath}`;
+    const baseUrl = API_BASE_URL.replace('/api', '');
+    return `${baseUrl}${imagePath}`;
   }
   return imagePath;
 };
