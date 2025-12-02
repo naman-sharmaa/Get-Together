@@ -12,6 +12,20 @@ import { Calendar, MapPin, Ticket, Download, Loader2, Eye, Clock, XCircle } from
 import { downloadTicketPDF } from "@/utils/ticketGenerator";
 import TicketDetailModal from "@/components/TicketDetailModal";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
+
+const getImageUrl = (imagePath: string): string => {
+  if (!imagePath) return '';
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  if (imagePath.startsWith('/uploads')) {
+    const baseUrl = API_BASE_URL.replace('/api', '');
+    return `${baseUrl}${imagePath}`;
+  }
+  return imagePath;
+};
+
 const UserProfile = () => {
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -217,7 +231,7 @@ const UserProfile = () => {
                   {booking.eventId.imageUrl && (
                     <div className="h-48 overflow-hidden bg-secondary/30">
                       <img
-                        src={booking.eventId.imageUrl}
+                        src={getImageUrl(booking.eventId.imageUrl)}
                         alt={booking.eventId.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />

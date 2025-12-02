@@ -6,13 +6,22 @@ import { useNavigate } from "react-router-dom";
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
 
 const getImageUrl = (imagePath: string): string => {
-  // If image starts with /uploads, it's an uploaded file - prepend backend base URL (without /api)
-  if (imagePath && imagePath.startsWith('/uploads')) {
-    // Remove /api suffix if present since uploads are served at root
-    const baseUrl = API_BASE_URL.replace('/api', '');
-    return `${baseUrl}${imagePath}`;
+  if (!imagePath) return '';
+  
+  // If already a full URL (http:// or https://), return as-is
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
   }
-  // Otherwise return as-is (external URL or asset)
+  
+  // If image starts with /uploads, it's an uploaded file - prepend backend base URL (without /api)
+  if (imagePath.startsWith('/uploads')) {
+    const baseUrl = API_BASE_URL.replace('/api', '');
+    const fullUrl = `${baseUrl}${imagePath}`;
+    console.log('🖼️ Image URL:', { imagePath, baseUrl, fullUrl });
+    return fullUrl;
+  }
+  
+  // Otherwise return as-is (relative path or asset)
   return imagePath;
 };
 

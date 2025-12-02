@@ -16,7 +16,11 @@ import BookingForm from "@/components/BookingForm";
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
 
 const getImageUrl = (imagePath: string): string => {
-  if (imagePath && imagePath.startsWith('/uploads')) {
+  if (!imagePath) return '';
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  if (imagePath.startsWith('/uploads')) {
     const baseUrl = API_BASE_URL.replace('/api', '');
     return `${baseUrl}${imagePath}`;
   }

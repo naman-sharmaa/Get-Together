@@ -47,6 +47,19 @@ interface TicketDetailModalProps {
   onDownloadTicket?: () => void;
 }
 
+// Helper function to construct proper image URLs
+const getImageUrl = (imagePath: string): string => {
+  if (!imagePath) return '';
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  if (imagePath.startsWith('/uploads')) {
+    const baseUrl = import.meta.env.VITE_API_URL.replace('/api', '');
+    return `${baseUrl}${imagePath}`;
+  }
+  return imagePath;
+};
+
 const TicketDetailModal = ({
   open,
   onOpenChange,
@@ -144,7 +157,7 @@ const TicketDetailModal = ({
               <div className="flex items-start gap-3">
                 {booking.eventId.imageUrl && (
                   <img
-                    src={booking.eventId.imageUrl}
+                    src={getImageUrl(booking.eventId.imageUrl)}
                     alt={booking.eventId.title}
                     className="w-24 h-24 object-cover rounded-lg"
                   />

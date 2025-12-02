@@ -43,6 +43,19 @@ const Index = () => {
   const [pastEvents, setPastEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Helper function to construct proper image URLs
+  const getImageUrl = (imagePath: string): string => {
+    if (!imagePath) return '';
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    if (imagePath.startsWith('/uploads')) {
+      const baseUrl = import.meta.env.VITE_API_URL.replace('/api', '');
+      return `${baseUrl}${imagePath}`;
+    }
+    return imagePath;
+  };
+
   useEffect(() => {
     // Redirect organizers to their dashboard
     if (!authLoading && isOrganizer) {
@@ -200,7 +213,7 @@ const Index = () => {
                 title={event.title}
                 date={new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 location={event.location}
-                image={event.imageUrl || event.image_url || defaultImages[event.category] || eventFestival}
+                image={getImageUrl(event.imageUrl) || event.image_url || defaultImages[event.category] || eventFestival}
                 category={event.category}
                 price={`₹${event.price}`}
                 bookingExpiry={event.bookingExpiry}
@@ -232,7 +245,7 @@ const Index = () => {
                 title={event.title}
                 date={new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 location={event.location}
-                image={event.imageUrl || event.image_url || defaultImages[event.category] || eventFestival}
+                image={getImageUrl(event.imageUrl) || event.image_url || defaultImages[event.category] || eventFestival}
                 category={event.category}
                 bookingExpiry={event.bookingExpiry}
               />

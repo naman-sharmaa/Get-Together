@@ -119,6 +119,9 @@ export const createEvent = async (req, res) => {
     if (req.file) {
       // Stored under /public/uploads/events
       finalImageUrl = `/uploads/events/${req.file.filename}`;
+      console.log('📸 Image uploaded:', req.file.filename);
+      console.log('📍 Image URL saved to DB:', finalImageUrl);
+      console.log('🗂️  File stored at:', req.file.path);
     }
 
     const event = await Event.create({
