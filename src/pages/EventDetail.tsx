@@ -13,6 +13,15 @@ import { eventsAPI, bookingsAPI } from "@/lib/api";
 import { Calendar, MapPin, DollarSign, Users, Ticket, ArrowLeft } from "lucide-react";
 import BookingForm from "@/components/BookingForm";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
+
+const getImageUrl = (imagePath: string): string => {
+  if (imagePath && imagePath.startsWith('/uploads')) {
+    return `${API_BASE_URL}${imagePath}`;
+  }
+  return imagePath;
+};
+
 const EventDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -98,7 +107,7 @@ const EventDetail = () => {
             {/* Event Image */}
             <div className="rounded-lg overflow-hidden">
               <img
-                src={event.imageUrl || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800"}
+                src={event.imageUrl ? getImageUrl(event.imageUrl) : "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800"}
                 alt={event.title}
                 className="w-full h-96 object-cover"
               />

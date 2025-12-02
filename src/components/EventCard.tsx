@@ -3,6 +3,17 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050';
+
+const getImageUrl = (imagePath: string): string => {
+  // If image starts with /uploads, it's an uploaded file - prepend API base URL
+  if (imagePath && imagePath.startsWith('/uploads')) {
+    return `${API_BASE_URL}${imagePath}`;
+  }
+  // Otherwise return as-is (external URL or asset)
+  return imagePath;
+};
+
 interface EventCardProps {
   id?: string;
   title: string;
@@ -31,7 +42,7 @@ const EventCard = ({ id, title, date, location, image, category, price, bookingE
     >
       <div className="aspect-video overflow-hidden">
         <img
-          src={image}
+          src={getImageUrl(image)}
           alt={title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
