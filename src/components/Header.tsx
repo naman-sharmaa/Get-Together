@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Ticket, LogOut, User } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthDialog from "./AuthDialog";
 import { useAuth } from "@/contexts/AuthContext";
@@ -18,8 +18,21 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 const Header = () => {
   const [authOpen, setAuthOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const { user, isAuthenticated, isOrganizer, signOut } = useAuth();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 20;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [scrolled]);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchQuery.trim()) {
@@ -30,8 +43,13 @@ const Header = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out">
+        <div className={`mx-auto transition-all duration-500 ease-in-out ${
+          scrolled 
+            ? 'w-[83.33%] mt-2 rounded-2xl backdrop-blur-2xl bg-black/30' 
+            : 'w-full backdrop-blur-2xl bg-black/30'
+        }`}>
+          <div className="container flex h-20 items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
               <div className="h-10 flex items-center">
@@ -44,20 +62,20 @@ const Header = () => {
                   <path d="M0 0 C1.75570312 0.01353516 1.75570312 0.01353516 3.546875 0.02734375 C4.43890625 0.03894531 5.3309375 0.05054688 6.25 0.0625 C6.25 1.0525 6.25 2.0425 6.25 3.0625 C9.22 3.5575 9.22 3.5575 12.25 4.0625 C12.25 6.0425 12.25 8.0225 12.25 10.0625 C14.56 11.3825 16.87 12.7025 19.25 14.0625 C19.25 14.7225 19.25 15.3825 19.25 16.0625 C19.78625 16.289375 20.3225 16.51625 20.875 16.75 C26.99788726 20.13370085 30.26915114 23.98519258 33.1875 30.1875 C33.50267578 30.80753906 33.81785156 31.42757813 34.14257812 32.06640625 C36.38251556 36.66495331 36.38251556 36.66495331 35.25 40.0625 C34.99347656 39.48242188 34.73695313 38.90234375 34.47265625 38.3046875 C30.46527841 30.12801756 24.7110236 26.14296976 16.25 23.0625 C7.33190529 21.27888106 -2.51447915 20.68096844 -10.75 25.0625 C-16.86151369 29.42071058 -21.24775665 34.44519598 -24.75 41.0625 C-17.14859099 47.27618584 -10.21671506 51.78042794 -0.1171875 51.32421875 C3.28047001 50.94857015 6.05995354 50.32522672 9.25 49.0625 C9.91 48.0725 10.57 47.0825 11.25 46.0625 C12.24 46.0625 13.23 46.0625 14.25 46.0625 C14.58 40.7825 14.91 35.5025 15.25 30.0625 C18.86599861 28.85716713 20.66239735 29.58306154 24.12109375 30.984375 C29.81027044 33.86549934 34.20701527 37.93354581 36.25 44.0625 C36.46817295 47.08221192 36.4312327 50.04195498 36.25 53.0625 C35.92 53.0625 35.59 53.0625 35.25 53.0625 C35.0546875 51.01171875 34.859375 48.9609375 34.6640625 46.91015625 C34.45910156 45.99556641 34.45910156 45.99556641 34.25 45.0625 C33.59 44.7325 32.93 44.4025 32.25 44.0625 C31.6875 42.125 31.6875 42.125 31.25 40.0625 C30.92 39.4025 30.59 38.7425 30.25 38.0625 C28.765 37.5675 28.765 37.5675 27.25 37.0625 C26.59 36.4025 25.93 35.7425 25.25 35.0625 C24.31213918 40.11259595 24.31213918 40.11259595 25.25 45.0625 C24.26439389 46.40650833 23.26241685 47.73857028 22.25 49.0625 C21.53566879 51.71184822 21.53566879 51.71184822 21.25 54.0625 C20.59 54.0625 19.93 54.0625 19.25 54.0625 C17.8959068 56.04850337 16.56542376 58.05067543 15.25 60.0625 C12.82590938 63.23554314 11.72312686 63.98677881 7.7109375 64.62890625 C6.34925297 64.65726425 4.98665935 64.65454259 3.625 64.625 C2.90787842 64.61259277 2.19075684 64.60018555 1.4519043 64.58740234 C-4.93960007 64.31805895 -9.47286339 62.7422783 -14.75 59.0625 C-16.20212891 58.05703125 -16.20212891 58.05703125 -17.68359375 57.03125 C-25.65101402 51.18002336 -32.79524411 44.5271419 -39.9140625 37.68359375 C-42.28119037 35.41642706 -44.68030191 33.24304138 -47.2109375 31.16015625 C-54.45475693 25.11743284 -54.45475693 25.11743284 -55.41796875 21.67578125 C-55.4375 19.4375 -55.4375 19.4375 -54.75 16.0625 C-58.38 16.0625 -62.01 16.0625 -65.75 16.0625 C-65.75 15.7325 -65.75 15.4025 -65.75 15.0625 C-63.77 14.7325 -61.79 14.4025 -59.75 14.0625 C-59.75 13.0725 -59.75 12.0825 -59.75 11.0625 C-53.54212442 12.30722632 -50.39246512 14.73302361 -46 19.1875 C-43.96247086 21.22502914 -41.91288183 23.15098011 -39.75 25.0625 C-38.76 25.0625 -37.77 25.0625 -36.75 25.0625 C-36.47414063 24.48113281 -36.19828125 23.89976562 -35.9140625 23.30078125 C-30.19071823 12.29582734 -20.59850025 4.36585113 -8.875 0.43359375 C-5.8998803 -0.0859584 -3.01717987 -0.0301718 0 0 Z " fill="#F533EB" transform="translate(329.75,225.9375)"/>
                 </svg>
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">GetTogether</span>
+              <span className="text-xl font-bold text-white">GetTogether</span>
             </div>
           </div>
 
           <div className="flex flex-1 items-center justify-center px-8 max-w-2xl">
             <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-primary" />
               <Input
                 type="search"
                 placeholder="Search for events, movies, and more..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleSearch}
-                className="w-full pl-10 bg-secondary/50 border-border focus:bg-secondary transition-colors"
+                className="w-full pl-10 glass-effect border-transparent hover:border-primary/30 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-transparent transition-smooth placeholder:text-gray-500"
               />
             </div>
           </div>
@@ -68,35 +86,35 @@ const Header = () => {
                 <Button 
                   onClick={() => window.location.href = '/organizer/dashboard'}
                   variant="outline"
-                  className="bg-gradient-primary hover:opacity-90 transition-opacity"
+                  className="bg-gradient-primary hover:opacity-90 transition-smooth border-primary/50 text-white"
                 >
                   Go to Dashboard
                 </Button>
               ) : (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                      <Avatar className="h-10 w-10">
-                        <AvatarFallback>
+                    <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:glow-sm transition-smooth">
+                      <Avatar className="h-10 w-10 border-2 border-primary/50">
+                        <AvatarFallback className="bg-gradient-primary text-white">
                           {user?.name?.charAt(0).toUpperCase() || <User className="h-4 w-4" />}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuContent className="w-56 glass-effect-strong border-primary/20" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user?.name}</p>
+                        <p className="text-sm font-medium leading-none text-foreground">{user?.name}</p>
                         <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
                       </div>
                     </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
+                    <DropdownMenuSeparator className="bg-border/50" />
+                    <DropdownMenuItem onClick={() => window.location.href = '/profile'} className="hover:bg-primary/10 cursor-pointer">
                       <User className="mr-2 h-4 w-4" />
                       <span>My Profile</span>
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={signOut}>
+                    <DropdownMenuSeparator className="bg-border/50" />
+                    <DropdownMenuItem onClick={signOut} className="hover:bg-destructive/10 cursor-pointer text-destructive">
                       <LogOut className="mr-2 h-4 w-4" />
                       <span>Log out</span>
                     </DropdownMenuItem>
@@ -106,12 +124,13 @@ const Header = () => {
             ) : (
               <Button 
                 onClick={() => setAuthOpen(true)}
-                className="bg-gradient-primary hover:opacity-90 transition-opacity"
+                className="bg-gradient-primary hover:glow-md transition-smooth text-white font-semibold"
               >
                 Sign In
               </Button>
             )}
           </div>
+        </div>
         </div>
       </header>
 

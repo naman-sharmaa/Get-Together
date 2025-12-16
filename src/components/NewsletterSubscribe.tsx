@@ -66,18 +66,18 @@ const NewsletterSubscribe = ({ className = "" }: NewsletterSubscribeProps) => {
   };
 
   return (
-    <div className={`bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-lg p-6 ${className}`}>
+    <div className={`bg-blue-500/70 rounded-lg p-6 ${className}`}>
       <div className="flex items-start gap-4">
         <div className="hidden sm:block">
-          <div className="bg-primary/10 p-3 rounded-full">
-            <Mail className="h-6 w-6 text-primary" />
+          <div className="bg-blue-400/60 p-3 rounded-full">
+            <Mail className="h-6 w-6 text-white" />
           </div>
         </div>
         <div className="flex-1">
-          <h3 className="text-lg font-bold text-foreground mb-2">
+          <h3 className="text-lg font-bold text-white mb-2">
             Stay Updated with GetTogether
           </h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="text-sm text-white/90 mb-4">
             Subscribe to our newsletter for the latest events, exclusive offers, and event management tips.
           </p>
           
@@ -94,7 +94,7 @@ const NewsletterSubscribe = ({ className = "" }: NewsletterSubscribeProps) => {
                   placeholder="Your name (optional)"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="bg-background"
+                  className="bg-blue-900/40 border-blue-400/30 text-white placeholder:text-blue-200/60"
                 />
                 <Input
                   type="email"
@@ -102,7 +102,7 @@ const NewsletterSubscribe = ({ className = "" }: NewsletterSubscribeProps) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="bg-background"
+                  className="bg-blue-900/40 border-blue-400/30 text-white placeholder:text-blue-200/60"
                 />
               </div>
               <Button

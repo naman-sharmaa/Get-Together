@@ -60,7 +60,7 @@ const EventDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen">
         <Header />
         <div className="container px-4 py-16 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
@@ -73,7 +73,7 @@ const EventDetail = () => {
 
   if (!event) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen">
         <Header />
         <div className="container px-4 py-16 text-center">
           <p className="text-muted-foreground mb-4">Event not found</p>
@@ -92,10 +92,10 @@ const EventDetail = () => {
   const isPastEvent = new Date() > eventDate;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
 
-      <div className="container px-4 py-8 md:px-6 max-w-6xl mx-auto">
+      <div className="container px-4 pt-24 pb-8 md:px-6 max-w-6xl mx-auto">
         {/* Back Button */}
         <Button
           variant="ghost"

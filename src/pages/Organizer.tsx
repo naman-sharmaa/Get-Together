@@ -9,17 +9,17 @@ const Organizer = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <OrganizerHeader />
 
       {/* Hero Section */}
-      <section id="hero" className="bg-gradient-subtle py-16">
+      <section id="hero" className="bg-gradient-subtle py-16 pt-28">
         <div className="container px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Grow Your Events with GetTogether
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-xl text-gray-300 mb-8">
               Join thousands of event organizers who trust us to reach wider audiences and manage their events seamlessly
             </p>
           </div>
@@ -29,29 +29,29 @@ const Organizer = () => {
             <Card>
               <CardContent className="p-6 text-center">
                 <Users className="h-12 w-12 text-primary mx-auto mb-3" />
-                <h3 className="text-3xl font-bold text-foreground">50K+</h3>
-                <p className="text-sm text-muted-foreground">Active Organizers</p>
+                <h3 className="text-3xl font-bold text-white">50K+</h3>
+                <p className="text-sm text-gray-400">Active Organizers</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-6 text-center">
                 <Calendar className="h-12 w-12 text-primary mx-auto mb-3" />
-                <h3 className="text-3xl font-bold text-foreground">100K+</h3>
-                <p className="text-sm text-muted-foreground">Events Listed</p>
+                <h3 className="text-3xl font-bold text-white">100K+</h3>
+                <p className="text-sm text-gray-400">Events Listed</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-6 text-center">
                 <DollarSign className="h-12 w-12 text-primary mx-auto mb-3" />
-                <h3 className="text-3xl font-bold text-foreground">₹50Cr+</h3>
-                <p className="text-sm text-muted-foreground">Tickets Sold</p>
+                <h3 className="text-3xl font-bold text-white">₹50Cr+</h3>
+                <p className="text-sm text-gray-400">Tickets Sold</p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-6 text-center">
                 <TrendingUp className="h-12 w-12 text-primary mx-auto mb-3" />
-                <h3 className="text-3xl font-bold text-foreground">95%</h3>
-                <p className="text-sm text-muted-foreground">Satisfaction Rate</p>
+                <h3 className="text-3xl font-bold text-white">95%</h3>
+                <p className="text-sm text-gray-400">Satisfaction Rate</p>
               </CardContent>
             </Card>
           </div>
@@ -62,8 +62,8 @@ const Organizer = () => {
       <section id="benefits" className="bg-gradient-subtle py-16">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-2">Why Choose GetTogether?</h2>
-            <p className="text-muted-foreground">Everything you need to manage and grow your events</p>
+            <h2 className="text-3xl font-bold text-white mb-2">Why Choose GetTogether?</h2>
+            <p className="text-gray-400">Everything you need to manage and grow your events</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -149,8 +149,8 @@ const Organizer = () => {
       {/* Top Features Section */}
       <section id="features" className="container px-4 py-16 md:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground mb-2">Top Features</h2>
-          <p className="text-muted-foreground">Powerful tools designed for successful event management</p>
+          <h2 className="text-3xl font-bold text-white mb-2">Top Features</h2>
+          <p className="text-gray-400">Powerful tools designed for successful event management</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -242,8 +242,8 @@ const Organizer = () => {
       <section id="contact" className="bg-gradient-subtle py-16">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-2">Get In Touch</h2>
-            <p className="text-muted-foreground">Have questions? We're here to help you succeed</p>
+            <h2 className="text-3xl font-bold text-white mb-2">Get In Touch</h2>
+            <p className="text-gray-400">Have questions? We're here to help you succeed</p>
           </div>
 
           <div className="max-w-4xl mx-auto">

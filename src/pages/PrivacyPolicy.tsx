@@ -8,10 +8,10 @@ const PrivacyPolicy = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
       
-      <main className="container px-4 py-12 md:px-6 max-w-4xl mx-auto">
+      <main className="container px-4 pt-24 pb-12 md:px-6 max-w-4xl mx-auto">
         <Button
           variant="ghost"
           onClick={() => navigate(-1)}

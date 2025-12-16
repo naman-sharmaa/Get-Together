@@ -149,7 +149,7 @@ const UserProfile = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen">
         <Header />
         <div className="container px-4 py-16 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
@@ -165,10 +165,10 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
 
-      <div className="container px-4 py-8 md:px-6 max-w-6xl mx-auto">
+      <div className="container px-4 pt-24 pb-8 md:px-6 max-w-6xl mx-auto">
         {/* Profile Header */}
         <div className="mb-8 bg-gradient-to-r from-primary/15 via-primary/10 to-accent/10 rounded-2xl p-8 border border-primary/30 shadow-lg">
           <div className="flex items-center justify-between gap-6">

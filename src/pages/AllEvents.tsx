@@ -97,10 +97,10 @@ const AllEvents = () => {
   }, [events, searchTerm, selectedCategory]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
 
-      <div className="container px-4 py-12 md:px-6">
+      <div className="container px-4 pt-24 pb-12 md:px-6">
         {/* Header */}
         <div className="mb-8">
           <Button

@@ -9,10 +9,10 @@ const AboutUs = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
       
-      <main className="container px-4 py-12 md:px-6">
+      <main className="container px-4 pt-24 pb-12 md:px-6">
         <Button
           variant="ghost"
           onClick={() => navigate(-1)}

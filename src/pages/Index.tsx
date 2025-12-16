@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import EventCard from "@/components/EventCard";
 import CategoryCard from "@/components/CategoryCard";
+import TypewriterText from "@/components/TypewriterText";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -158,36 +159,43 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
 
       {/* Hero Section */}
-      <section className="relative h-[500px] overflow-hidden">
-        <img src={heroBanner} alt="Hero" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 to-foreground/40" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="container px-4 text-center text-primary-foreground">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Discover Amazing Events</h1>
-            <p className="text-xl md:text-2xl mb-8 text-primary-foreground/90">
-              Book tickets to concerts, sports, theater, and more
-            </p>
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-              Explore Events <ArrowRight className="ml-2 h-5 w-5" />
+      <section className="relative min-h-[55vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+        <div className="container px-4 text-center relative z-10 animate-fade-in-up">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl md:text-6xl font-bold mb-5 text-white leading-tight">
+              Your Next Great <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Experience</span> Awaits
+            </h1>
+            <TypewriterText />
+            <Button 
+              size="lg" 
+              onClick={() => navigate("/all-events")}
+              className="bg-gradient-to-r from-pink-500 via-purple-500 to-purple-600 hover:from-pink-600 hover:via-purple-600 hover:to-purple-700 text-white font-semibold text-base px-8 py-6 h-auto rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-purple-500/30"
+            >
+              Explore Now <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
         </div>
       </section>
 
       {/* Categories */}
-      <section className="bg-gradient-subtle py-16">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-2">Browse by Category</h2>
-            <p className="text-muted-foreground">Find events that match your interests</p>
+      <section className="py-20 relative overflow-hidden">
+        <div className="container px-4 md:px-6 mb-12">
+          <div className="text-center animate-fade-in-up">
+            <h2 className="text-4xl font-bold mb-3 text-white">Browse by Category</h2>
+            <p className="text-muted-foreground text-lg">Find events that match your interests</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {categories.map((category, index) => (
-              <CategoryCard key={index} {...category} />
+        </div>
+        <div className="relative overflow-x-auto scrollbar-hide pb-4">
+          <div className="flex gap-6 animate-scroll">
+            {[...categories, ...categories].map((category, index) => (
+              <div key={index} className="flex-shrink-0 w-[280px]">
+                <CategoryCard {...category} />
+              </div>
             ))}
           </div>
         </div>
@@ -195,12 +203,12 @@ const Index = () => {
 
       {/* Upcoming Events */}
       <section className="container px-4 py-16 md:px-6">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 animate-fade-in-up">
           <div>
-            <h2 className="text-3xl font-bold text-foreground mb-2">Upcoming Events</h2>
-            <p className="text-muted-foreground">Don't miss out on these exciting events</p>
+            <h2 className="text-4xl font-bold mb-2 text-white">Upcoming Events</h2>
+            <p className="text-muted-foreground text-lg">Don't miss out on these exciting events</p>
           </div>
-          <Button variant="outline" onClick={() => navigate("/all-events?status=upcoming")}>View All</Button>
+          <Button variant="outline" onClick={() => navigate("/all-events?status=upcoming")} className="border-primary/50 hover:bg-primary/10 hover:border-primary transition-smooth">View All</Button>
         </div>
         <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
           {loading ? (
@@ -227,12 +235,12 @@ const Index = () => {
 
       {/* Past Events */}
       <section className="container px-4 py-16 md:px-6">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 animate-fade-in-up">
           <div>
-            <h2 className="text-3xl font-bold text-foreground mb-2">Past Events</h2>
-            <p className="text-muted-foreground">See what you missed</p>
+            <h2 className="text-4xl font-bold mb-2 text-white">Past Events</h2>
+            <p className="text-muted-foreground text-lg">See what you missed</p>
           </div>
-          <Button variant="outline" onClick={() => navigate("/all-events?status=past")}>View All</Button>
+          <Button variant="outline" onClick={() => navigate("/all-events?status=past")} className="border-primary/50 hover:bg-primary/10 hover:border-primary transition-smooth">View All</Button>
         </div>
         <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
           {loading ? (
@@ -257,20 +265,21 @@ const Index = () => {
       </section>
 
       {/* Partners */}
-      <section className="bg-secondary/30 py-16">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-2">Our Partners</h2>
-            <p className="text-muted-foreground">Trusted by leading event platforms</p>
+      <section className="relative py-20 border-y border-primary/20 overflow-hidden bg-black">
+        <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle, rgba(99, 102, 241, 0.3) 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+        <div className="container px-4 md:px-6 relative z-10">
+          <div className="text-center mb-12 animate-fade-in-up">
+            <h2 className="text-4xl font-bold mb-3 text-white">Our Partners</h2>
+            <p className="text-gray-400 text-lg">Trusted by leading event platforms</p>
           </div>
-          <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-            {partners.map((partner, index) => (
-              <Card key={index} className="hover:shadow-soft transition-all duration-300 cursor-pointer border-border hover:border-primary flex-shrink-0 w-[280px]">
+          <div className="flex gap-6 animate-scroll">
+            {[...partners, ...partners].map((partner, index) => (
+              <Card key={index} className="bg-gradient-to-br from-slate-900/80 to-slate-950/80 backdrop-blur-sm border-slate-700/50 hover:border-purple-500/50 transition-smooth cursor-pointer flex-shrink-0 w-[280px]">
                 <CardContent className="p-8 flex flex-col items-center text-center space-y-4">
-                  <div className="h-16 w-16 rounded-full bg-gradient-primary flex items-center justify-center">
-                    <Building2 className="h-8 w-8 text-primary-foreground" />
+                  <div className="h-16 w-16 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                    <Building2 className="h-8 w-8 text-white" />
                   </div>
-                  <span className="text-lg font-semibold text-foreground">{partner}</span>
+                  <span className="text-lg font-semibold text-white">{partner}</span>
                 </CardContent>
               </Card>
             ))}
@@ -281,8 +290,8 @@ const Index = () => {
       {/* For Organizers */}
       <section id="organizers" className="container px-4 py-16 md:px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <Calendar className="h-16 w-16 text-primary mx-auto mb-6" />
-          <h2 className="text-3xl font-bold text-foreground mb-4">Are You an Event Organizer?</h2>
+          <Calendar className="h-16 w-16 text-blue-500 mx-auto mb-6" />
+          <h2 className="text-3xl font-bold text-white mb-4">Are You an Event Organizer?</h2>
           <p className="text-muted-foreground mb-8 text-lg">
             Join our platform and reach thousands of potential attendees. We provide the tools and support 
             you need to make your event a success. List your events, manage tickets, and grow your audience.
@@ -301,11 +310,11 @@ const Index = () => {
         <div className="container px-4 md:px-6">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-foreground mb-3">Contact Us</h2>
+              <h2 className="text-4xl font-bold text-white mb-3">Contact Us</h2>
               <p className="text-lg text-muted-foreground">Have questions? We'd love to hear from you</p>
             </div>
 
-            <div className="bg-card p-10 rounded-xl shadow-elevated">
+            <div className="glass-effect p-10 rounded-xl border border-primary/20">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 {/* Contact Form - Left Column */}
                 <div>

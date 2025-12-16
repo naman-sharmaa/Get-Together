@@ -91,7 +91,7 @@ const ForgotPasswordReset = () => {
 
   if (verifying) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <Header />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
@@ -106,7 +106,7 @@ const ForgotPasswordReset = () => {
 
   if (linkExpired) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <Header />
 
         <main className="flex-1 container px-4 py-12 md:px-6 flex items-center justify-center">
@@ -147,7 +147,7 @@ const ForgotPasswordReset = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Header />
 
       <main className="flex-1 container px-4 py-12 md:px-6 flex items-center justify-center">
